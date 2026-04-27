@@ -109,7 +109,7 @@ const officialUrl = computed(() => {
   const content = options.content || '';
   const extraContent = options.extraContent || '';
   const importId = getImportId(content) || getImportId(extraContent);
-  return importId ? `https://i.gkd.li/i/${importId}` : content;
+  return importId ? `https://inspect-plus-84k.pages.dev/i/${importId}` : content;
 });
 
 const currentOriginUrl = computed(() => {
