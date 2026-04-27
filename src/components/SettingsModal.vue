@@ -35,7 +35,7 @@ const updateCustomDomain = () => {
 const triggerDebugShareDialog = () => {
   showTextDLg({
     title: '调试 - 链接复制窗口',
-    content: 'https://i.gkd.li/i/123456',
+    content: 'https://inspect-plus-84k.pages.dev/i/123456',
     extraContent: `${window.location.origin}/i/123456`,
     extraTitle: '当前域链接',
   });
@@ -112,13 +112,13 @@ const resetAllLocal = () => {
         </div>
         <div class="settings-row">
           <NSwitch v-model:value="settingsStore.shareUseOfficialImportDomain" />
-          <div>分享快照链接默认复制官方域名 i.gkd.li</div>
+          <div>分享快照链接默认复制官方域名 inspect-plus-84k.pages.dev</div>
         </div>
         <div class="settings-row">
           <div class="w-120px">自定义分享域</div>
           <NInput
             v-model:value="settingsStore.shareCustomImportDomain"
-            placeholder="https://li.chenge.eu.org"
+            placeholder="https://inspect-plus-84k.pages.dev"
             class="w-320px"
             @blur="updateCustomDomain"
           />
