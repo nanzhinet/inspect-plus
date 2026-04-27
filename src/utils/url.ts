@@ -79,7 +79,8 @@ export const getImportUrl = (importId: number | string) => {
   return location.origin + `/i/${importId}`;
 };
 export const getImagUrl = (imageId: number | string) => {
-  return `https://ny.jingleiw9.workers.dev/i/${imageId}`;
+  //return `https://ny.jingleiw9.workers.dev/i/${imageId}`;
+  return `https://e.gkd.li/${imageId}`;
 };
 
 export const getImportFileUrl = (importId: number | string) => {
