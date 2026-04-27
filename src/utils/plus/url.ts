@@ -20,7 +20,7 @@ export const getImportUrl = (importId: number | string) => {
  * 官方快照导入页地址。
  */
 export const getOfficialImportUrl = (importId: number | string) => {
-  return `https://i.gkd.li/i/${importId}`;
+  return `https://inspect-plus-84k.pages.dev/i/${importId}`;
 };
 
 /**
