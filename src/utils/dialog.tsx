@@ -103,7 +103,7 @@ const ShareDialogContent = defineComponent({
                     style={{ color: 'var(--n-text-color-disabled)' }}
                   >
                     {' '}
-                    官方域 (i.gkd.li){' '}
+                    官方域{' '}
                   </div>
                   <NInput
                     type="textarea"
@@ -217,7 +217,7 @@ export const showTextDLg = (
 ) => {
   const { content = '', extraContent = '' } = params;
   const importId = getImportId(content) || getImportId(extraContent);
-  const officialUrl = importId ? `https://i.gkd.li/i/${importId}` : content;
+  const officialUrl = importId ? `https://inspect-plus-84k.pages.dev/i/${importId}` : content;
   const currentOriginUrl =
     extraContent ||
     (importId ? `${window.location.origin}/i/${importId}` : content);
