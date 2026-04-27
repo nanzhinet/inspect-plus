@@ -37,6 +37,8 @@ const urlRegList = [
   /^https:\/\/github\.com\/user-attachments\/files\/(\d+)\/file\.zip$/,
   /^https:\/\/i\.gkd\.li\/i\/(\d+)$/,
   /^https:\/\/i\.gkd\.li\/import\/(\d+)$/,
+  /^https:\/\/gkd-inspect-bsn\.pages\.dev\/i\/(\d+)$/,
+  /^https:\/\/inspect-plus-84k\.pages\.dev\/i\/(\d+)$/,
 ];
 
 const fileBaseUrlList = [
@@ -77,7 +79,7 @@ export const getImportUrl = (importId: number | string) => {
   return location.origin + `/i/${importId}`;
 };
 export const getImagUrl = (imageId: number | string) => {
-  return `https://e.gkd.li/${imageId}`;
+  return `https://github.com/user-attachments/assets/${imageId}`;
 };
 
 export const getImportFileUrl = (importId: number | string) => {
