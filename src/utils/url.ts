@@ -42,7 +42,7 @@ const urlRegList = [
 ];
 
 const fileBaseUrlList = [
-  'https://f.gkd.li/',
+  'https://ny.jingleiw9.workers.dev/f/',
   'https://github.com/user-attachments/files/',
   'https://github.com/gkd-kit/inspect/files/',
 ];
@@ -79,7 +79,7 @@ export const getImportUrl = (importId: number | string) => {
   return location.origin + `/i/${importId}`;
 };
 export const getImagUrl = (imageId: number | string) => {
-  return `https://github.com/user-attachments/assets/${imageId}`;
+  return `https://ny.jingleiw9.workers.dev/i/${imageId}`;
 };
 
 export const getImportFileUrl = (importId: number | string) => {
