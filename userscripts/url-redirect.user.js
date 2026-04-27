@@ -37,7 +37,7 @@
   }
 
   /* ======== 2. 常量与环境准备 ======== */
-  const DEFAULT_CUSTOM = 'https://li.chenge.eu.org';
+  const DEFAULT_CUSTOM = 'https://inspect-plus-84k.pages.dev';
   const STORE_REDIRECT_ENABLED = 'gkd_redirectEnabled';
   const STORE_CUSTOM_DOMAIN = 'gkd_customDomain';
   const STORE_SKIP_PREFIX = 'gkd_skip_';
