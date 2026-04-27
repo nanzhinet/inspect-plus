@@ -1,0 +1,42 @@
+name: deploy
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ['main']
+    paths-ignore:
+      - 'README.md'
+
+permissions:
+  contents: write
+  pages: write # GitHub Pages 部署权限
+  id-token: write # 身份验证权限
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: latest
+
+      - uses: pnpm/action-setup@v4
+
+      - run: pnpm install
+
+      - run: pnpm exec tsx ./scripts/updateVersion.ts
+      - run: pnpm run build
+
+      # --- 容错处理开始 ---
+
+      # 1. Cloudflare Pages 部署
+      - name: Deploy to Cloudflare Pages
+        continue-on-error: true # 如果 CF 部署失败（项目名报错），跳过并继续
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=inspect-plus
+

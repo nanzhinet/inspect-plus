@@ -1,0 +1,188 @@
+import { isIntString } from '@/utils/others';
+import { getImageId, getImportId } from '@/utils/url';
+import localforage from 'localforage';
+
+if (import.meta.hot) {
+  import.meta.hot.accept(() => {
+    location.reload();
+  });
+}
+
+const directReturn = (v: any): any => v;
+const tryRun = <T>(fn: () => T, fallback: () => T): T => {
+  try {
+    return fn();
+  } catch {
+    return fallback();
+  }
+};
+
+const useReactiveStorage = <T extends object>(
+  key: string,
+  fallback: () => T,
+  getter: (v: any) => T = directReturn,
+): T => {
+  const str = localStorage.getItem(key);
+  const initData = str
+    ? tryRun(() => getter(JSON.parse(str)), fallback)
+    : fallback();
+  const data = reactive(initData);
+  watch(
+    data,
+    () => {
+      localStorage.setItem(key, JSON.stringify(toRaw(data)));
+    },
+    { deep: true },
+  );
+  return data as T;
+};
+
+const useReactiveIndexedDB = async <T extends object>(
+  key: string,
+  fallback: () => T,
+  getter: (v: any) => T = directReturn,
+): Promise<T> => {
+  const initData = await localforage.getItem(key);
+  const data = shallowReactive(initData ? getter(initData) : fallback());
+  watch(data, async () => {
+    await localforage.setItem(key, toRaw(data));
+  });
+  return data as T;
+};
+
+export const settingsStore = useReactiveStorage<SettingsStore>(
+  'settings',
+  () => ({
+    autoUploadImport: false,
+    ignoreUploadWarn: false,
+    ignoreWasmWarn: false,
+    maxShowNodeSize: 2000,
+    lowMemoryMode: false,
+    themeMode: 'auto',
+    darkModeStart: '18:00',
+    darkModeEnd: '06:00',
+    autoExpandSnapshots: false,
+    groupRemarks: {},
+    shareUseOfficialImportDomain: true,
+    shareCustomImportDomain: '',
+    locale: 'zh',
+    debugMode: false,
+    showDebugTools: false,
+    focusNodeColor: undefined,
+    randomFocusNodeColorOnOpen: false,
+    filterRandomVidQf: true,
+  }),
+);
+
+if (settingsStore.focusNodeColor === 'rgb(0, 220, 255)') {
+  settingsStore.focusNodeColor = undefined;
+}
+
+// 类型规范化：确保focusNodeColor是字符串类型
+if (typeof settingsStore.focusNodeColor !== 'string') {
+  settingsStore.focusNodeColor = undefined;
+}
+
+if (!settingsStore.darkModeStart) settingsStore.darkModeStart = '18:00';
+if (!settingsStore.darkModeEnd) settingsStore.darkModeEnd = '06:00';
+if (typeof settingsStore.shareUseOfficialImportDomain != 'boolean')
+  settingsStore.shareUseOfficialImportDomain = true;
+if (typeof settingsStore.shareCustomImportDomain != 'string')
+  settingsStore.shareCustomImportDomain = '';
+if (typeof settingsStore.debugMode != 'boolean')
+  settingsStore.debugMode = false;
+if (typeof settingsStore.showDebugTools != 'boolean')
+  settingsStore.showDebugTools = false;
+
+if (typeof settingsStore.randomFocusNodeColorOnOpen != 'boolean')
+  settingsStore.randomFocusNodeColorOnOpen = false;
+
+if (typeof settingsStore.filterRandomVidQf != 'boolean')
+  settingsStore.filterRandomVidQf = true;
+
+// snapshot id -> last viewed time
+export const snapshotViewedTime = await useReactiveIndexedDB<
+  Record<number, number>
+>('snapshotViewedTime', () => ({}));
+
+// snapshot id -> import time
+export const snapshotImportTime = await useReactiveIndexedDB<
+  Record<string, number>
+>('importTime', () => ({}));
+
+// snapshot id -> github image id
+export const snapshotImageId = await useReactiveIndexedDB<
+  Record<string, string>
+>(
+  'githubJpg',
+  () => ({}),
+  (obj) => {
+    Object.keys(obj).forEach((key) => {
+      const v = obj[key];
+      if (v.startsWith('https://')) {
+        const imageId = getImageId(v);
+        if (imageId) {
+          obj[key] = imageId;
+        } else {
+          delete obj[key];
+        }
+      }
+    });
+    return obj;
+  },
+);
+
+// snapshot id -> import id
+export const snapshotImportId = await useReactiveIndexedDB<
+  Record<string, number>
+>(
+  'githubZip',
+  () => ({}),
+  (obj) => {
+    // 兼容旧数据
+    Object.keys(obj).forEach((key) => {
+      const v = obj[key] as unknown as string;
+      if (isIntString(v)) {
+        return;
+      }
+      const importId = getImportId(v);
+      if (importId) {
+        obj[key] = importId;
+      } else {
+        delete obj[key];
+      }
+    });
+    return obj;
+  },
+);
+
+//  import id -> snapshot id
+export const importSnapshotId = await useReactiveIndexedDB<
+  Record<string, number>
+>(
+  'url',
+  () => ({}),
+  (obj) => {
+    // 兼容旧数据
+    Object.keys(obj).forEach((key) => {
+      if (isIntString(key)) {
+        return;
+      }
+      const importId = getImportId(key);
+      if (importId) {
+        obj[importId] = obj[key];
+      }
+      delete obj[key];
+    });
+    return obj;
+  },
+);
+
+export const useStorageStore = () => ({
+  settingsStore,
+  snapshotImportTime,
+  snapshotViewedTime,
+  snapshotImageId,
+  snapshotImportId,
+  importSnapshotId,
+});

@@ -1,0 +1,18 @@
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
