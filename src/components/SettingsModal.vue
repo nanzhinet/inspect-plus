@@ -133,7 +133,7 @@ const updateCustomImageDomain = () => {
         
         <div class="settings-row">
           <NSwitch v-model:value="settingsStore.shareUseOfficialImageDomain" />
-          <div>图片链接默认复制官方域名 e.gkd.li</div>
+          <div>图片链接默认复制官方域名 ny.jingleiw9.workers.dev</div>
         </div>
         <div class="settings-row">
           <div class="w-120px">自定义图片域</div>
