@@ -51,6 +51,7 @@ export const getImportUrlByOrigin = (
  * 生成自定义域名导入链接；与主链接同域时返回空字符串避免重复显示。
  */
 export const getCustomDomainImportUrl = (importId: number | string) => {
+  if (settingsStore.shareUseOfficialImportDomain) return '';
   const custom = normalizeOriginText(settingsStore.shareCustomImportDomain);
   if (!custom) return '';
   const primary = settingsStore.shareUseOfficialImportDomain
