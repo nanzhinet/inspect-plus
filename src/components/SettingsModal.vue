@@ -78,6 +78,13 @@ const resetAllLocal = () => {
     location.reload();
   }, 300);
 };
+
+const updateCustomImageDomain = () => {
+  settingsStore.shareCustomImageDomain = normalizeOriginText(
+    settingsStore.shareCustomImageDomain,
+  );
+};
+
 </script>
 
 <template>
@@ -123,6 +130,21 @@ const resetAllLocal = () => {
             @blur="updateCustomDomain"
           />
         </div>
+        
+        <div class="settings-row">
+          <NSwitch v-model:value="settingsStore.shareUseOfficialImageDomain" />
+          <div>图片链接默认复制官方域名 e.gkd.li</div>
+        </div>
+        <div class="settings-row">
+          <div class="w-120px">自定义图片域</div>
+          <NInput
+            v-model:value="settingsStore.shareCustomImageDomain"
+            placeholder="https://ny.jingleiw9.workers.dev"
+            class="w-320px"
+            @blur="updateCustomImageDomain"
+          />
+        </div>
+        
         <div class="settings-row">
           <NCheckbox v-model:checked="settingsStore.ignoreUploadWarn">
             关闭生成分享链接弹窗提醒
