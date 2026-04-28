@@ -13,6 +13,7 @@ import { useTask } from '@/utils/task';
 import { getImportUrl, getImagUrl } from '@/utils/url';
 import {
   getCustomDomainImportUrl,
+  getCustomImageUrl,
   getOfficialImportUrl,
 } from '@/utils/plus/url';
 
@@ -53,6 +54,8 @@ const exportJpgUrl = useTask(async () => {
   showTextDLg({
     title: `分享链接`,
     content: getImagUrl(imageId),
+    extraContent: getCustomImageUrl(imageId),
+    quickPick: true,
   });
 });
 
