@@ -65,6 +65,8 @@ export const settingsStore = useReactiveStorage<SettingsStore>(
     groupRemarks: {},
     shareUseOfficialImportDomain: true,
     shareCustomImportDomain: '',
+    shareUseOfficialImageDomain: true,
+    shareCustomImageDomain: '',
     locale: 'zh',
     debugMode: false,
     showDebugTools: false,
@@ -89,6 +91,12 @@ if (typeof settingsStore.shareUseOfficialImportDomain != 'boolean')
   settingsStore.shareUseOfficialImportDomain = true;
 if (typeof settingsStore.shareCustomImportDomain != 'string')
   settingsStore.shareCustomImportDomain = '';
+
+if (typeof settingsStore.shareUseOfficialImageDomain != 'boolean')
+  settingsStore.shareUseOfficialImageDomain = true;
+if (typeof settingsStore.shareCustomImageDomain != 'string')
+  settingsStore.shareCustomImageDomain = '';
+
 if (typeof settingsStore.debugMode != 'boolean')
   settingsStore.debugMode = false;
 if (typeof settingsStore.showDebugTools != 'boolean')
