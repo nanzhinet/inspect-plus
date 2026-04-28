@@ -1,4 +1,5 @@
 import { settingsStore } from '@/store/storage';
+import { getImagUrl } from '@/utils/url';
 
 /**
  * 校验 URL 字符串，合法时返回 URL 实例。
@@ -59,4 +60,12 @@ export const getCustomDomainImportUrl = (importId: number | string) => {
     : getImportUrl(importId);
   if (new URL(primary).origin == custom) return '';
   return `${custom}/i/${importId}`;
+};
+
+export const getCustomImageUrl = (imageId: number | string) => {
+  if (settingsStore.shareUseOfficialImageDomain) return '';
+  const custom = normalizeOriginText(settingsStore.shareCustomImageDomain);
+  if (!custom) return '';
+  if (new URL(getImagUrl(imageId)).origin == custom) return '';
+  return `${custom}/${imageId}`;
 };
