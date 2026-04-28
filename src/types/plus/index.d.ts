@@ -36,6 +36,8 @@ declare global {
     groupRemarks: Record<string, string>;
     shareUseOfficialImportDomain: boolean;
     shareCustomImportDomain: string;
+    shareUseOfficialImageDomain: boolean;
+    shareCustomImageDomain: string;
     locale: 'zh' | 'en';
     debugMode?: boolean;
     showDebugTools?: boolean;
